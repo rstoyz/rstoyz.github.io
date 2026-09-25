@@ -1099,10 +1099,3 @@ loadProducts();
 
 </body>
 </html>
-DROP POLICY IF EXISTS "Ürünler herkes tarafından görülebilir" ON public.products;
-
-CREATE POLICY "Ürünler herkes tarafından görülebilir"
-ON public.products
-FOR SELECT
-TO public
-USING (true);
