@@ -3,568 +3,1048 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RSTOYZ | Hot Wheels Koleksiyon</title>
+
+<title>RSTOYZ | Premium Diecast Collection</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#080808;
-    color:#fff;
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
+
+:root{
+    --red:#e10600;
+    --red-dark:#b90000;
+    --black:#111111;
+    --text:#191919;
+    --gray:#6d6d6d;
+    --light:#f5f5f5;
+    --border:#e7e7e7;
+    --white:#ffffff;
+}
+
+body{
+    font-family:"Inter",sans-serif;
+    background:#ffffff;
+    color:var(--text);
+}
+
+/* ================= HEADER ================= */
+
 header{
+    height:78px;
+    border-bottom:1px solid var(--border);
+    background:rgba(255,255,255,.96);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 6%;
     position:sticky;
     top:0;
     z-index:1000;
-    background:rgba(8,8,8,.95);
-    border-bottom:1px solid #292929;
+    backdrop-filter:blur(12px);
 }
-.header{
-    max-width:1250px;
-    height:75px;
-    margin:auto;
-    padding:0 20px;
+
+.logo{
+    font-family:"Manrope",sans-serif;
+    font-size:27px;
+    font-weight:800;
+    letter-spacing:-1.5px;
+}
+
+.logo span{
+    color:var(--red);
+}
+
+nav{
+    display:flex;
+    gap:32px;
+}
+
+nav a{
+    color:#333;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:600;
+    transition:.2s;
+}
+
+nav a:hover{
+    color:var(--red);
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.cart-btn,
+.admin-btn{
+    border:0;
+    background:#f5f5f5;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:17px;
+    transition:.2s;
+}
+
+.cart-btn:hover,
+.admin-btn:hover{
+    background:#111;
+    color:white;
+}
+
+.cart-count{
+    position:absolute;
+    margin-left:-14px;
+    margin-top:-7px;
+    background:var(--red);
+    color:#fff;
+    font-size:10px;
+    font-weight:700;
+    width:18px;
+    height:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    min-height:570px;
+    background:
+        linear-gradient(90deg,
+        rgba(255,255,255,.98) 0%,
+        rgba(255,255,255,.88) 43%,
+        rgba(255,255,255,.25) 75%,
+        rgba(255,255,255,0) 100%),
+        url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2000&q=90")
+        center/cover;
+    display:flex;
+    align-items:center;
+    padding:70px 8%;
+}
+
+.hero-content{
+    max-width:600px;
+}
+
+.hero-label{
+    color:var(--red);
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:3px;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-family:"Manrope",sans-serif;
+    font-size:clamp(45px,6vw,78px);
+    line-height:.98;
+    letter-spacing:-4px;
+    margin-bottom:25px;
+}
+
+.hero h1 span{
+    color:var(--red);
+}
+
+.hero p{
+    color:#555;
+    max-width:470px;
+    line-height:1.7;
+    font-size:15px;
+    margin-bottom:32px;
+}
+
+.hero-button{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:15px 25px;
+    background:#111;
+    color:#fff;
+    text-decoration:none;
+    border-radius:5px;
+    font-size:13px;
+    font-weight:700;
+    transition:.25s;
+}
+
+.hero-button:hover{
+    background:var(--red);
+    transform:translateY(-2px);
+}
+
+/* ================= PRODUCTS ================= */
+
+.products-section{
+    padding:90px 7%;
+}
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    margin-bottom:42px;
+}
+
+.section-label{
+    color:var(--red);
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:2px;
+    margin-bottom:8px;
+}
+
+.section-title{
+    font-family:"Manrope",sans-serif;
+    font-size:38px;
+    letter-spacing:-2px;
+}
+
+.section-description{
+    color:#777;
+    font-size:13px;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:24px;
+}
+
+/* ================= PRODUCT CARD ================= */
+
+.product-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.product-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 18px 45px rgba(0,0,0,.10);
+}
+
+.product-image{
+    height:270px;
+    background:#f5f5f5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
+
+.product-image img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    transition:.4s;
+    padding:15px;
+}
+
+.product-card:hover .product-image img{
+    transform:scale(1.05);
+}
+
+.product-info{
+    padding:20px;
+}
+
+.product-name{
+    font-family:"Manrope",sans-serif;
+    font-size:16px;
+    font-weight:700;
+    margin-bottom:9px;
+}
+
+.product-stock{
+    font-size:11px;
+    color:#777;
+    margin-bottom:15px;
+}
+
+.product-bottom{
     display:flex;
     align-items:center;
     justify-content:space-between;
 }
-.logo{
-    font-size:30px;
-    font-weight:900;
-    letter-spacing:3px;
-}
-.logo span{color:#e60000}
-nav{display:flex;gap:28px}
-nav a{
-    color:#ddd;
-    text-decoration:none;
-    font-weight:bold;
-}
-nav a:hover{color:#e60000}
-.cart-btn,.admin-btn{
-    border:0;
-    color:#fff;
-    padding:12px 17px;
-    border-radius:8px;
-    font-weight:bold;
-    cursor:pointer;
-}
-.cart-btn{background:#e60000}
-.admin-btn{background:#242424;margin-left:8px}
 
-.hero{
-    min-height:520px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:70px 20px;
-    background:
-    radial-gradient(circle at center,#350000 0,#120000 35%,#050505 70%);
-}
-.hero h1{
-    font-size:clamp(45px,8vw,90px);
-    line-height:.95;
-    font-weight:1000;
-    letter-spacing:-3px;
-}
-.hero h1 span{color:#e60000}
-.hero p{
-    color:#aaa;
-    font-size:19px;
-    margin:25px 0;
-}
-.hero-btn{
-    display:inline-block;
-    background:#e60000;
-    color:#fff;
-    text-decoration:none;
-    padding:15px 28px;
-    border-radius:8px;
-    font-weight:bold;
-}
-.container{
-    max-width:1250px;
-    margin:auto;
-    padding:60px 20px;
-}
-.title{
-    font-size:34px;
-    margin-bottom:30px;
-}
-.products{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:22px;
-}
-.product{
-    background:#111;
-    border:1px solid #292929;
-    border-radius:14px;
-    overflow:hidden;
-    transition:.25s;
-}
-.product:hover{
-    transform:translateY(-7px);
-    border-color:#e60000;
-}
-.product-img{
-    height:280px;
-    background:#f1f1f1;
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-.product-img img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-}
-.stock{
-    position:absolute;
-    top:12px;
-    left:12px;
-    background:#168a25;
-    color:white;
-    padding:6px 9px;
-    border-radius:6px;
-    font-size:12px;
-    font-weight:bold;
-}
-.out{
-    background:#555;
-}
-.product-info{padding:18px}
-.product-name{
-    font-size:18px;
-    font-weight:bold;
-    min-height:42px;
-}
 .price{
-    color:#fff;
-    font-size:24px;
-    font-weight:900;
-    margin:12px 0;
-}
-.add{
-    width:100%;
-    border:0;
-    background:#e60000;
-    color:white;
-    padding:13px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-}
-.add:disabled{
-    background:#444;
-    cursor:not-allowed;
+    font-size:20px;
+    font-weight:800;
 }
 
-.info{
+.add-cart{
+    border:0;
     background:#111;
-    border-top:1px solid #222;
-    border-bottom:1px solid #222;
+    color:#fff;
+    width:40px;
+    height:40px;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:18px;
+    transition:.2s;
 }
+
+.add-cart:hover{
+    background:var(--red);
+}
+
+/* ================= INFO ================= */
+
+.info-section{
+    background:#f6f6f6;
+    padding:80px 7%;
+}
+
 .info-grid{
-    max-width:1250px;
-    margin:auto;
-    padding:45px 20px;
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:20px;
+    gap:25px;
 }
-.info-box{
-    background:#181818;
-    padding:25px;
-    border-radius:12px;
-    border:1px solid #292929;
+
+.info-card{
+    background:white;
+    border:1px solid var(--border);
+    padding:30px;
+    border-radius:8px;
 }
-.info-box h3{margin-bottom:10px}
-.info-box p{color:#aaa;line-height:1.6}
+
+.info-icon{
+    font-size:26px;
+    margin-bottom:18px;
+}
+
+.info-card h3{
+    font-family:"Manrope",sans-serif;
+    margin-bottom:10px;
+}
+
+.info-card p{
+    color:#777;
+    font-size:13px;
+    line-height:1.7;
+}
+
+/* ================= FOOTER ================= */
 
 footer{
-    text-align:center;
-    color:#777;
-    padding:30px;
+    background:#111;
+    color:#fff;
+    padding:45px 7%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.footer-logo{
+    font-family:"Manrope",sans-serif;
+    font-weight:800;
+    font-size:22px;
+}
+
+.footer-logo span{
+    color:var(--red);
+}
+
+footer p{
+    color:#999;
+    font-size:12px;
+}
+
+/* ================= CART ================= */
+
+.cart-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:1999;
+    display:none;
+}
+
+.cart-overlay.active{
+    display:block;
 }
 
 .cart{
     position:fixed;
-    right:-440px;
+    right:0;
     top:0;
-    width:420px;
+    width:390px;
     max-width:100%;
     height:100vh;
-    background:#111;
-    z-index:3000;
+    background:white;
+    z-index:2000;
+    transform:translateX(100%);
     transition:.3s;
-    box-shadow:-10px 0 30px #000;
     display:flex;
     flex-direction:column;
 }
-.cart.active{right:0}
-.cart-head{
-    padding:20px;
-    background:#e60000;
-    display:flex;
-    justify-content:space-between;
+
+.cart.active{
+    transform:translateX(0);
 }
-.cart-head button{
-    background:none;
+
+.cart-header{
+    height:75px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+}
+
+.cart-header h2{
+    font-family:"Manrope",sans-serif;
+}
+
+.close-cart{
     border:0;
-    color:white;
-    font-size:25px;
+    background:#f3f3f3;
+    width:35px;
+    height:35px;
+    border-radius:50%;
     cursor:pointer;
 }
+
 .cart-items{
     flex:1;
     overflow:auto;
     padding:20px;
 }
+
 .cart-item{
-    padding:15px 0;
-    border-bottom:1px solid #292929;
-}
-.qty{
     display:flex;
     align-items:center;
-    gap:10px;
-    margin-top:10px;
+    gap:12px;
+    border-bottom:1px solid var(--border);
+    padding:15px 0;
 }
-.qty button{
-    width:28px;
-    height:28px;
-    border:0;
-    background:#e60000;
-    color:#fff;
+
+.cart-item img{
+    width:65px;
+    height:65px;
+    object-fit:contain;
+    background:#f5f5f5;
     border-radius:5px;
-    cursor:pointer;
 }
-.remove{
+
+.cart-item-info{
+    flex:1;
+}
+
+.cart-item-name{
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.cart-item-price{
+    font-size:13px;
+    color:#777;
+}
+
+.remove-item{
     border:0;
-    background:#333;
-    color:#fff;
-    padding:6px 9px;
-    border-radius:5px;
-    cursor:pointer;
-}
-.cart-foot{
-    padding:20px;
-    border-top:1px solid #292929;
-}
-.total{
-    font-size:24px;
-    font-weight:900;
-    margin-bottom:15px;
-}
-.whatsapp{
-    width:100%;
-    border:0;
-    padding:15px;
-    background:#20a83a;
-    color:#fff;
-    border-radius:8px;
-    font-weight:bold;
-    cursor:pointer;
-}
-.clear{
-    width:100%;
-    margin-top:8px;
-    padding:12px;
-    border:0;
-    background:#333;
-    color:#fff;
-    border-radius:8px;
+    background:none;
+    color:#999;
     cursor:pointer;
 }
 
-/* ADMIN */
-.admin{
-    display:none;
+.cart-footer{
+    padding:20px;
+    border-top:1px solid var(--border);
+}
+
+.cart-total{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:17px;
+    font-weight:800;
+}
+
+.whatsapp-btn{
+    width:100%;
+    border:0;
+    background:#111;
+    color:white;
+    padding:15px;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.whatsapp-btn:hover{
+    background:var(--red);
+}
+
+/* ================= ADMIN ================= */
+
+.admin-overlay{
     position:fixed;
     inset:0;
-    z-index:4000;
-    background:#080808;
+    background:rgba(0,0,0,.65);
+    z-index:3000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.admin-overlay.active{
+    display:flex;
+}
+
+.admin-panel{
+    width:700px;
+    max-width:100%;
+    max-height:90vh;
     overflow:auto;
+    background:white;
+    border-radius:10px;
+    padding:30px;
 }
-.admin.active{display:block}
-.admin-inner{
-    max-width:1000px;
-    margin:auto;
-    padding:30px 20px;
-}
-.admin-head{
+
+.admin-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin-bottom:25px;
 }
-.close-admin{
-    background:#e60000;
-    color:white;
+
+.admin-header h2{
+    font-family:"Manrope",sans-serif;
+}
+
+.admin-close{
     border:0;
-    padding:10px 15px;
-    border-radius:7px;
+    background:#f1f1f1;
+    width:35px;
+    height:35px;
+    border-radius:50%;
     cursor:pointer;
 }
-.form{
+
+.admin-form{
+    display:grid;
+    gap:12px;
+}
+
+.admin-form input{
+    width:100%;
+    border:1px solid #ddd;
+    padding:13px;
+    border-radius:5px;
+    outline:none;
+}
+
+.admin-form input:focus{
+    border-color:#111;
+}
+
+.admin-submit{
+    border:0;
     background:#111;
-    border:1px solid #292929;
-    padding:22px;
-    border-radius:12px;
-    margin-bottom:25px;
-}
-.form input{
-    width:100%;
-    padding:13px;
-    margin:7px 0;
-    background:#1d1d1d;
-    border:1px solid #333;
-    color:white;
-    border-radius:7px;
-}
-.form button{
-    width:100%;
-    padding:13px;
-    margin-top:8px;
-    border:0;
-    border-radius:7px;
-    background:#e60000;
     color:#fff;
-    font-weight:bold;
+    padding:14px;
+    border-radius:5px;
     cursor:pointer;
+    font-weight:700;
 }
+
+.admin-submit:hover{
+    background:var(--red);
+}
+
+.admin-products{
+    margin-top:30px;
+}
+
 .admin-product{
     display:flex;
     align-items:center;
     gap:15px;
-    background:#111;
-    border:1px solid #292929;
+    border:1px solid #eee;
     padding:12px;
-    border-radius:10px;
-    margin-bottom:10px;
-}
-.admin-product img{
-    width:70px;
-    height:70px;
-    object-fit:contain;
-    background:#eee;
-    border-radius:6px;
-}
-.delete{
-    margin-left:auto;
-    background:#e60000;
-    color:white;
-    border:0;
-    padding:8px 12px;
-    border-radius:6px;
-    cursor:pointer;
-}
-.login-box{
-    max-width:400px;
-    margin:100px auto;
-    background:#111;
-    padding:30px;
-    border-radius:14px;
-    border:1px solid #292929;
-}
-.login-box h2{margin-bottom:20px}
-.login-box input{
-    width:100%;
-    padding:13px;
-    margin:6px 0;
-    background:#1d1d1d;
-    border:1px solid #333;
-    color:#fff;
-    border-radius:7px;
-}
-.login-box button{
-    width:100%;
-    padding:13px;
     margin-top:10px;
-    background:#e60000;
-    border:0;
-    color:white;
-    border-radius:7px;
-    font-weight:bold;
+    border-radius:6px;
 }
 
-@media(max-width:900px){
-    .products{grid-template-columns:repeat(2,1fr)}
-    .info-grid{grid-template-columns:1fr}
-    nav{display:none}
+.admin-product img{
+    width:60px;
+    height:60px;
+    object-fit:contain;
+    background:#f5f5f5;
 }
-@media(max-width:550px){
-    .products{grid-template-columns:1fr 1fr;gap:10px}
-    .product-img{height:190px}
-    .product-info{padding:12px}
-    .product-name{font-size:14px}
-    .price{font-size:19px}
-    .header{padding:0 10px}
-    .logo{font-size:24px}
-    .admin-btn{display:none}
+
+.admin-product-info{
+    flex:1;
 }
+
+.delete-btn{
+    border:0;
+    background:#fee;
+    color:#d00;
+    padding:9px 12px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.logout-btn{
+    border:1px solid #ddd;
+    background:white;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+    margin-top:15px;
+}
+
+/* ================= LOGIN ================= */
+
+.login-box{
+    max-width:400px;
+    margin:auto;
+}
+
+.login-box h2{
+    font-family:"Manrope",sans-serif;
+    margin-bottom:20px;
+}
+
+.login-box input{
+    width:100%;
+    margin-bottom:12px;
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:5px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1000px){
+
+    .products{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    nav{
+        display:none;
+    }
+
+    .hero{
+        min-height:500px;
+    }
+}
+
+@media(max-width:600px){
+
+    header{
+        padding:0 20px;
+    }
+
+    .logo{
+        font-size:23px;
+    }
+
+    .hero{
+        min-height:500px;
+        padding:50px 25px;
+        background:
+            linear-gradient(90deg,
+            rgba(255,255,255,.96),
+            rgba(255,255,255,.7)),
+            url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80")
+            center/cover;
+    }
+
+    .hero h1{
+        font-size:48px;
+        letter-spacing:-3px;
+    }
+
+    .products-section{
+        padding:60px 20px;
+    }
+
+    .section-head{
+        display:block;
+    }
+
+    .section-description{
+        margin-top:10px;
+    }
+
+    .products{
+        grid-template-columns:1fr;
+    }
+
+    .product-image{
+        height:300px;
+    }
+
+    .info-section{
+        padding:60px 20px;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    footer{
+        display:block;
+        text-align:center;
+    }
+
+    footer p{
+        margin-top:10px;
+    }
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- ================= HEADER ================= -->
+
 <header>
-<div class="header">
 
-<div class="logo">RSTO<span>YZ</span></div>
+    <div class="logo">
+        RS<span>TOYZ</span>
+    </div>
 
-<nav>
-<a href="#urunler">Ürünler</a>
-<a href="#hakkimizda">Hakkımızda</a>
-<a href="#iletisim">İletişim</a>
-</nav>
+    <nav>
+        <a href="#home">Ana Sayfa</a>
+        <a href="#products-section">Koleksiyon</a>
+        <a href="#info">Hakkımızda</a>
+    </nav>
 
-<div>
-<button class="cart-btn" onclick="openCart()">🛒 Sepet (<span id="cartCount">0</span>)</button>
-<button class="admin-btn" onclick="openAdmin()">⚙️</button>
-</div>
+    <div class="header-right">
 
-</div>
+        <button class="admin-btn" onclick="openAdmin()">
+            ⚙
+        </button>
+
+        <button class="cart-btn" onclick="openCart()">
+            🛒
+        </button>
+
+        <span class="cart-count" id="cartCount">0</span>
+
+    </div>
+
 </header>
 
-<section class="hero">
-<div>
-<h1>HOT WHEELS<br><span>KOLEKSİYONU</span></h1>
-<p>RSTOYZ • Koleksiyonunun yeni parçalarını keşfet.</p>
-<a class="hero-btn" href="#urunler">🔥 Koleksiyonu İncele</a>
-</div>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="hero-label">
+            RSTOYZ DIECAST COLLECTION
+        </div>
+
+        <h1>
+            TUTKUNU<br>
+            <span>KOLEKSİYONA</span><br>
+            DÖNÜŞTÜR.
+        </h1>
+
+        <p>
+            Özenle seçilmiş Hot Wheels ve diecast modelleri.
+            Koleksiyonuna yeni bir parça ekle.
+        </p>
+
+        <a href="#products-section" class="hero-button">
+            KOLEKSİYONU KEŞFET →
+        </a>
+
+    </div>
+
 </section>
 
-<section class="container" id="urunler">
-<h2 class="title">🔥 Koleksiyon</h2>
-<div class="products" id="products">
-<p>Ürünler yükleniyor...</p>
-</div>
+
+<!-- ================= PRODUCTS ================= -->
+
+<section class="products-section" id="products-section">
+
+    <div class="section-head">
+
+        <div>
+            <div class="section-label">
+                RSTOYZ COLLECTION
+            </div>
+
+            <h2 class="section-title">
+                Öne Çıkan Modeller
+            </h2>
+        </div>
+
+        <div class="section-description">
+            Güncel stoklarımız
+        </div>
+
+    </div>
+
+    <div class="products" id="products">
+
+        <p>Ürünler yükleniyor...</p>
+
+    </div>
+
 </section>
 
-<section class="info" id="hakkimizda">
-<div class="info-grid">
 
-<div class="info-box">
-<h3>🏎️ Koleksiyon</h3>
-<p>Özel Hot Wheels modellerini RSTOYZ koleksiyonunda keşfet.</p>
-</div>
+<!-- ================= INFO ================= -->
 
-<div class="info-box">
-<h3>📦 Sipariş</h3>
-<p>Ürünlerini sepete ekle ve sipariş detaylarını WhatsApp üzerinden gönder.</p>
-</div>
+<section class="info-section" id="info">
 
-<div class="info-box" id="iletisim">
-<h3>💬 İletişim</h3>
-<p>Sepetini oluşturduktan sonra bizimle kolayca iletişime geç.</p>
-</div>
+    <div class="info-grid">
 
-</div>
+        <div class="info-card">
+
+            <div class="info-icon">🏎️</div>
+
+            <h3>Özenle Seçildi</h3>
+
+            <p>
+                Koleksiyoncular için seçilmiş özel diecast
+                modellerini RSTOYZ çatısı altında bulabilirsin.
+            </p>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <div class="info-icon">📦</div>
+
+            <h3>Güvenli Paketleme</h3>
+
+            <p>
+                Modellerin sana sağlam şekilde ulaşması için
+                paketleme aşamasına özen gösteriyoruz.
+            </p>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <div class="info-icon">⭐</div>
+
+            <h3>Koleksiyonunu Büyüt</h3>
+
+            <p>
+                Yeni modeller geldikçe RSTOYZ koleksiyonunu
+                takip ederek koleksiyonuna yeni parçalar ekle.
+            </p>
+
+        </div>
+
+    </div>
+
 </section>
+
+
+<!-- ================= FOOTER ================= -->
 
 <footer>
-© 2026 RSTOYZ — Hot Wheels Koleksiyon
+
+    <div class="footer-logo">
+        RS<span>TOYZ</span>
+    </div>
+
+    <p>
+        © 2026 RSTOYZ — Diecast Collection
+    </p>
+
 </footer>
 
 
-<!-- SEPET -->
+<!-- ================= CART ================= -->
+
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 
 <div class="cart" id="cart">
 
-<div class="cart-head">
-<h2>🛒 Sepetim</h2>
-<button onclick="closeCart()">×</button>
-</div>
+    <div class="cart-header">
 
-<div class="cart-items" id="cartItems">
-Sepet boş.
-</div>
+        <h2>Sepetim</h2>
 
-<div class="cart-foot">
-<div class="total">
-Toplam: <span id="total">0</span> TL
-</div>
+        <button class="close-cart" onclick="closeCart()">
+            ✕
+        </button>
 
-<button class="whatsapp" onclick="sendWhatsApp()">
-💬 WhatsApp ile Sipariş Ver
-</button>
+    </div>
 
-<button class="clear" onclick="clearCart()">
-Sepeti Temizle
-</button>
-</div>
+    <div class="cart-items" id="cartItems">
 
-</div>
+        <p style="color:#777;font-size:13px;">
+            Sepetiniz boş.
+        </p>
 
+    </div>
 
-<!-- ADMIN -->
+    <div class="cart-footer">
 
-<div class="admin" id="admin">
+        <div class="cart-total">
 
-<div class="admin-inner">
+            <span>Toplam</span>
 
-<div class="admin-head">
-<h1>⚙️ RSTOYZ Admin</h1>
-<button class="close-admin" onclick="closeAdmin()">Kapat</button>
-</div>
+            <span id="cartTotal">
+                0 TL
+            </span>
 
-<div id="loginArea" class="login-box">
+        </div>
 
-<h2>Admin Girişi</h2>
+        <button class="whatsapp-btn" onclick="sendWhatsApp()">
+            WhatsApp ile Sipariş Ver
+        </button>
 
-<input id="email" type="email" placeholder="E-posta">
-
-<input id="password" type="password" placeholder="Şifre">
-
-<button onclick="login()">Giriş Yap</button>
-
-<p id="loginMessage" style="margin-top:12px;color:#e60000"></p>
+    </div>
 
 </div>
 
-<div id="panelArea" style="display:none">
 
-<div class="form">
+<!-- ================= ADMIN ================= -->
 
-<h2>➕ Yeni Ürün Ekle</h2>
+<div class="admin-overlay" id="adminOverlay">
 
-<input id="productName" placeholder="Ürün adı">
+    <div class="admin-panel">
 
-<input id="productPrice" type="number" placeholder="Fiyat (TL)">
+        <div class="admin-header">
 
-<input id="productStock" type="number" placeholder="Stok adedi">
+            <h2>RSTOYZ Yönetim Paneli</h2>
 
-<input id="productImage" type="file" accept="image/*">
+            <button class="admin-close" onclick="closeAdmin()">
+                ✕
+            </button>
 
-<button onclick="addProduct()">Ürünü Ekle</button>
+        </div>
 
-<p id="addMessage" style="margin-top:12px"></p>
 
-</div>
+        <!-- LOGIN -->
 
-<h2 style="margin-bottom:15px">📦 Ürünler</h2>
+        <div id="loginSection" class="login-box">
 
-<div id="adminProducts"></div>
+            <h2>Admin Girişi</h2>
 
-<button onclick="logout()" style="margin-top:20px;padding:12px;background:#333;color:#fff;border:0;border-radius:7px">
-Çıkış Yap
-</button>
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="E-posta"
+            >
 
-</div>
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Şifre"
+            >
 
-</div>
+            <button
+                class="admin-submit"
+                onclick="login()"
+            >
+                Giriş Yap
+            </button>
+
+        </div>
+
+
+        <!-- ADMIN -->
+
+        <div id="adminSection" style="display:none;">
+
+            <h3>Yeni Ürün Ekle</h3>
+
+            <br>
+
+            <div class="admin-form">
+
+                <input
+                    type="text"
+                    id="productName"
+                    placeholder="Ürün adı"
+                >
+
+                <input
+                    type="number"
+                    id="productPrice"
+                    placeholder="Fiyat (TL)"
+                >
+
+                <input
+                    type="number"
+                    id="productStock"
+                    placeholder="Stok"
+                >
+
+                <input
+                    type="file"
+                    id="productImage"
+                    accept="image/*"
+                >
+
+                <button
+                    class="admin-submit"
+                    onclick="addProduct()"
+                >
+                    Ürünü Ekle
+                </button>
+
+            </div>
+
+
+            <div class="admin-products">
+
+                <h3>Ürünler</h3>
+
+                <div id="adminProducts">
+                    Yükleniyor...
+                </div>
+
+            </div>
+
+
+            <button
+                class="logout-btn"
+                onclick="logout()"
+            >
+                Çıkış Yap
+            </button>
+
+        </div>
+
+    </div>
+
 </div>
 
 
 <script>
 
-/* SUPABASE */
+/* ==================================================
+   SUPABASE
+================================================== */
 
 const SUPABASE_URL =
 "https://twahqrmijeegnpqcnuyc.supabase.co";
@@ -573,527 +1053,781 @@ const SUPABASE_KEY =
 "sb_publishable_j2iO0lfs8XYEzP4b_sf-xQ_qav_IH5p";
 
 const db = window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+    SUPABASE_URL,
+    SUPABASE_KEY
 );
 
 
-/* SEPET */
+/* ==================================================
+   PRODUCTS
+================================================== */
+
+let products = [];
 
 let cart = [];
 
 
-/* ÜRÜNLERİ GETİR */
-
 async function loadProducts(){
 
-const {data,error} = await db
-.from("products")
-.select("*")
-.order("created_at",{ascending:false});
+    const { data, error } = await db
+        .from("products")
+        .select("*")
+        .order("created_at", {
+            ascending:false
+        });
 
-if(error){
-console.error(error);
-document.getElementById("products").innerHTML =
-"<p>Ürünler yüklenemedi.</p>";
-return;
-}
+    if(error){
 
-const area = document.getElementById("products");
+        console.error(error);
 
-area.innerHTML = "";
+        document.getElementById("products").innerHTML =
+            "<p>Ürünler yüklenemedi.</p>";
 
-if(!data || data.length === 0){
+        return;
+    }
 
-area.innerHTML =
-"<p style='color:#aaa'>Henüz ürün eklenmemiş.</p>";
+    products = data || [];
 
-return;
-
-}
-
-data.forEach(product => {
-
-const stock = Number(product.stock || 0);
-
-const card = document.createElement("div");
-
-card.className = "product";
-
-card.innerHTML = `
-
-<div class="product-img">
-
-${product.image_url
-? `<img src="${product.image_url}" alt="${product.name}">`
-: `<span style="color:#777">Fotoğraf yok</span>`
-}
-
-<div class="stock ${stock <= 0 ? "out":""}">
-${stock > 0 ? "● Stokta" : "Tükendi"}
-</div>
-
-</div>
-
-<div class="product-info">
-
-<div class="product-name">
-${product.name}
-</div>
-
-<div class="price">
-${product.price} TL
-</div>
-
-<button class="add" ${stock <= 0 ? "disabled":""}
-onclick="addToCart('${escapeQuotes(product.name)}',${product.price})">
-
-${stock > 0 ? "🛒 Sepete Ekle" : "Tükendi"}
-
-</button>
-
-</div>
-`;
-
-area.appendChild(card);
-
-});
+    renderProducts();
 
 }
 
 
-/* GÜVENLİ İSİM */
+function renderProducts(){
 
-function escapeQuotes(text){
-return text.replace(/'/g,"\\'");
+    const container =
+        document.getElementById("products");
+
+    if(products.length === 0){
+
+        container.innerHTML =
+            "<p>Henüz ürün bulunmuyor.</p>";
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        products.map(product => `
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                ${
+                    product.image_url
+                    ?
+                    `<img src="${product.image_url}" alt="${escapeHTML(product.name)}">`
+                    :
+                    `<span>Görsel yok</span>`
+                }
+
+            </div>
+
+            <div class="product-info">
+
+                <div class="product-name">
+                    ${escapeHTML(product.name)}
+                </div>
+
+                <div class="product-stock">
+                    ${
+                        product.stock > 0
+                        ?
+                        `Stokta ${product.stock} adet`
+                        :
+                        `Stokta yok`
+                    }
+                </div>
+
+                <div class="product-bottom">
+
+                    <div class="price">
+                        ${Number(product.price).toFixed(2)} TL
+                    </div>
+
+                    <button
+                        class="add-cart"
+                        onclick="addToCart(${product.id})"
+                        ${
+                            product.stock <= 0
+                            ? "disabled"
+                            : ""
+                        }
+                    >
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
 }
 
 
-/* SEPETE EKLE */
+/* ==================================================
+   CART
+================================================== */
 
-function addToCart(name,price){
+function addToCart(id){
 
-const item = cart.find(x=>x.name===name);
+    const product =
+        products.find(p => p.id === id);
 
-if(item){
-item.quantity++;
-}else{
-cart.push({
-name:name,
-price:Number(price),
-quantity:1
-});
+    if(!product) return;
+
+    if(product.stock <= 0){
+
+        alert("Bu ürün stokta yok.");
+
+        return;
+
+    }
+
+
+    const existing =
+        cart.find(item => item.id === id);
+
+
+    if(existing){
+
+        if(existing.quantity < product.stock){
+
+            existing.quantity++;
+
+        }else{
+
+            alert("Stok miktarına ulaştınız.");
+
+        }
+
+    }else{
+
+        cart.push({
+
+            ...product,
+
+            quantity:1
+
+        });
+
+    }
+
+
+    updateCart();
+
+    openCart();
+
 }
 
-updateCart();
-openCart();
+
+function removeFromCart(id){
+
+    cart =
+        cart.filter(item => item.id !== id);
+
+    updateCart();
 
 }
 
-
-/* SEPET */
 
 function updateCart(){
 
-const area = document.getElementById("cartItems");
-
-let total = 0;
-let count = 0;
-
-if(cart.length===0){
-
-area.innerHTML="<p style='color:#aaa'>Sepetiniz boş.</p>";
-
-}else{
-
-area.innerHTML="";
-
-cart.forEach((item,index)=>{
-
-total += item.price * item.quantity;
-count += item.quantity;
-
-area.innerHTML += `
-
-<div class="cart-item">
-
-<strong>${item.name}</strong>
-
-<div style="color:#aaa;margin-top:5px">
-${item.price} TL
-</div>
-
-<div class="qty">
-
-<button onclick="changeQty(${index},-1)">−</button>
-
-<span>${item.quantity}</span>
-
-<button onclick="changeQty(${index},1)">+</button>
-
-<button class="remove" onclick="removeItem(${index})">
-Sil
-</button>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-}
-
-document.getElementById("cartCount").innerText=count;
-document.getElementById("total").innerText=total;
-
-}
+    const count =
+        cart.reduce(
+            (sum,item) =>
+            sum + item.quantity,
+            0
+        );
 
 
-function changeQty(index,amount){
-
-cart[index].quantity += amount;
-
-if(cart[index].quantity<=0)
-cart.splice(index,1);
-
-updateCart();
-
-}
+    document.getElementById("cartCount")
+        .textContent = count;
 
 
-function removeItem(index){
-
-cart.splice(index,1);
-updateCart();
-
-}
+    const container =
+        document.getElementById("cartItems");
 
 
-function clearCart(){
+    if(cart.length === 0){
 
-cart=[];
-updateCart();
+        container.innerHTML =
+            `
+            <p style="color:#777;font-size:13px;">
+                Sepetiniz boş.
+            </p>
+            `;
+
+    }else{
+
+        container.innerHTML =
+            cart.map(item => `
+
+            <div class="cart-item">
+
+                ${
+                    item.image_url
+                    ?
+                    `<img src="${item.image_url}">`
+                    :
+                    `<div style="
+                        width:65px;
+                        height:65px;
+                        background:#f5f5f5;">
+                    </div>`
+                }
+
+                <div class="cart-item-info">
+
+                    <div class="cart-item-name">
+                        ${escapeHTML(item.name)}
+                    </div>
+
+                    <div class="cart-item-price">
+                        ${item.quantity} ×
+                        ${Number(item.price).toFixed(2)} TL
+                    </div>
+
+                </div>
+
+                <button
+                    class="remove-item"
+                    onclick="removeFromCart(${item.id})"
+                >
+                    ✕
+                </button>
+
+            </div>
+
+        `).join("");
+
+    }
+
+
+    const total =
+        cart.reduce(
+            (sum,item) =>
+            sum + Number(item.price) * item.quantity,
+            0
+        );
+
+
+    document.getElementById("cartTotal")
+        .textContent =
+        total.toFixed(2) + " TL";
 
 }
 
 
 function openCart(){
 
-document.getElementById("cart")
-.classList.add("active");
+    document
+        .getElementById("cart")
+        .classList.add("active");
+
+    document
+        .getElementById("cartOverlay")
+        .classList.add("active");
 
 }
 
 
 function closeCart(){
 
-document.getElementById("cart")
-.classList.remove("active");
+    document
+        .getElementById("cart")
+        .classList.remove("active");
+
+    document
+        .getElementById("cartOverlay")
+        .classList.remove("active");
 
 }
 
 
-/* WHATSAPP */
+/* ==================================================
+   WHATSAPP
+================================================== */
 
 function sendWhatsApp(){
 
-if(cart.length===0){
+    if(cart.length === 0){
 
-alert("Önce sepete ürün eklemelisin.");
-return;
+        alert("Sepetiniz boş.");
+
+        return;
+
+    }
+
+
+    /*
+       BURAYA DAHA SONRA WHATSAPP NUMARAN
+       EKLENECEK.
+    */
+
+    const phone =
+        "905XXXXXXXXXX";
+
+
+    let message =
+        "Merhaba, RSTOYZ üzerinden sipariş vermek istiyorum:%0A%0A";
+
+
+    cart.forEach(item => {
+
+        message +=
+            `• ${item.name} x${item.quantity} - ${Number(item.price * item.quantity).toFixed(2)} TL%0A`;
+
+    });
+
+
+    const total =
+        cart.reduce(
+            (sum,item) =>
+            sum + Number(item.price) * item.quantity,
+            0
+        );
+
+
+    message +=
+        `%0AToplam: ${total.toFixed(2)} TL`;
+
+
+    window.open(
+        `https://wa.me/${phone}?text=${message}`,
+        "_blank"
+    );
 
 }
 
-let message =
-"Merhaba, RSTOYZ sitesinden sipariş vermek istiyorum.%0A%0A";
 
-cart.forEach(item=>{
+/* ==================================================
+   ADMIN
+================================================== */
 
-message +=
-item.name+
-" x"+
-item.quantity+
-" - "+
-(item.price*item.quantity)+
-" TL%0A";
+async function openAdmin(){
 
-});
-
-const total =
-cart.reduce((sum,item)=>
-sum+(item.price*item.quantity),0);
-
-message +=
-"%0AToplam: "+
-total+
-" TL";
-
-/* KENDİ WHATSAPP NUMARANI BURAYA YAZ */
-
-const phone="905XXXXXXXXXX";
-
-window.open(
-"https://wa.me/"+phone+"?text="+message,
-"_blank"
-);
-
-}
+    document
+        .getElementById("adminOverlay")
+        .classList.add("active");
 
 
-/* ADMIN */
+    const {
+        data:{
+            user
+        }
+    } = await db.auth.getUser();
 
-function openAdmin(){
 
-document.getElementById("admin")
-.classList.add("active");
+    if(user){
+
+        document
+            .getElementById("loginSection")
+            .style.display = "none";
+
+        document
+            .getElementById("adminSection")
+            .style.display = "block";
+
+        loadAdminProducts();
+
+    }else{
+
+        document
+            .getElementById("loginSection")
+            .style.display = "block";
+
+        document
+            .getElementById("adminSection")
+            .style.display = "none";
+
+    }
 
 }
 
 
 function closeAdmin(){
 
-document.getElementById("admin")
-.classList.remove("active");
+    document
+        .getElementById("adminOverlay")
+        .classList.remove("active");
 
 }
 
 
-/* LOGIN */
+/* ==================================================
+   LOGIN
+================================================== */
 
 async function login(){
 
-const email =
-document.getElementById("email").value;
+    const email =
+        document
+        .getElementById("loginEmail")
+        .value;
 
-const password =
-document.getElementById("password").value;
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value;
 
-const {error} =
-await db.auth.signInWithPassword({
-email,
-password
-});
 
-if(error){
+    const {
+        error
+    } =
+    await db.auth.signInWithPassword({
 
-document.getElementById("loginMessage").innerText =
-"❌ E-posta veya şifre yanlış.";
+        email,
+        password
 
-return;
+    });
+
+
+    if(error){
+
+        alert(
+            "Giriş başarısız: " +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    alert("Giriş başarılı.");
+
+    openAdmin();
 
 }
 
-showAdminPanel();
 
-}
-
-
-/* ADMIN PANEL */
-
-function showAdminPanel(){
-
-document.getElementById("loginArea").style.display="none";
-
-document.getElementById("panelArea").style.display="block";
-
-loadAdminProducts();
-
-}
-
-
-/* ÇIKIŞ */
+/* ==================================================
+   LOGOUT
+================================================== */
 
 async function logout(){
 
-await db.auth.signOut();
+    await db.auth.signOut();
 
-document.getElementById("loginArea").style.display="block";
+    document
+        .getElementById("loginSection")
+        .style.display = "block";
 
-document.getElementById("panelArea").style.display="none";
+    document
+        .getElementById("adminSection")
+        .style.display = "none";
 
 }
 
 
-/* ÜRÜN EKLE */
+/* ==================================================
+   ADD PRODUCT
+================================================== */
 
 async function addProduct(){
 
-const name =
-document.getElementById("productName").value.trim();
+    const name =
+        document
+        .getElementById("productName")
+        .value.trim();
 
-const price =
-Number(document.getElementById("productPrice").value);
 
-const stock =
-Number(document.getElementById("productStock").value);
+    const price =
+        Number(
+            document
+            .getElementById("productPrice")
+            .value
+        );
 
-const file =
-document.getElementById("productImage").files[0];
 
-const msg =
-document.getElementById("addMessage");
+    const stock =
+        Number(
+            document
+            .getElementById("productStock")
+            .value
+        );
 
-if(!name || !price || stock < 0 || !file){
 
-msg.style.color="#e60000";
-msg.innerText="Tüm alanları doldur.";
-return;
+    const file =
+        document
+        .getElementById("productImage")
+        .files[0];
+
+
+    if(!name || !price || stock < 0){
+
+        alert("Ürün bilgilerini doldur.");
+
+        return;
+
+    }
+
+
+    if(!file){
+
+        alert("Ürün görseli seç.");
+
+        return;
+
+    }
+
+
+    try{
+
+        const fileName =
+            `${Date.now()}-${file.name}`;
+
+
+        const {
+            error:uploadError
+        } =
+        await db.storage
+            .from("products")
+            .upload(
+                fileName,
+                file
+            );
+
+
+        if(uploadError){
+
+            throw uploadError;
+
+        }
+
+
+        const {
+            data:imageData
+        } =
+        db.storage
+            .from("products")
+            .getPublicUrl(fileName);
+
+
+        const {
+            error:insertError
+        } =
+        await db
+            .from("products")
+            .insert({
+
+                name:name,
+
+                price:price,
+
+                stock:stock,
+
+                image_url:
+                    imageData.publicUrl
+
+            });
+
+
+        if(insertError){
+
+            throw insertError;
+
+        }
+
+
+        alert("Ürün başarıyla eklendi.");
+
+
+        document
+            .getElementById("productName")
+            .value = "";
+
+        document
+            .getElementById("productPrice")
+            .value = "";
+
+        document
+            .getElementById("productStock")
+            .value = "";
+
+        document
+            .getElementById("productImage")
+            .value = "";
+
+
+        await loadProducts();
+
+        await loadAdminProducts();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Ürün eklenemedi: " +
+            error.message
+        );
+
+    }
 
 }
 
-msg.style.color="#aaa";
-msg.innerText="Yükleniyor...";
 
-
-/* DOSYA ADI */
-
-const fileName =
-Date.now()+"_"+file.name.replace(/\s+/g,"_");
-
-
-/* FOTOĞRAF YÜKLE */
-
-const {error:uploadError} =
-await db.storage
-.from("products")
-.upload(fileName,file);
-
-if(uploadError){
-
-msg.style.color="#e60000";
-msg.innerText="Fotoğraf yüklenemedi: "+uploadError.message;
-return;
-
-}
-
-
-/* FOTOĞRAF URL */
-
-const {data:urlData} =
-db.storage
-.from("products")
-.getPublicUrl(fileName);
-
-const imageUrl =
-urlData.publicUrl;
-
-
-/* ÜRÜNÜ VERİTABANINA EKLE */
-
-const {error} =
-await db
-.from("products")
-.insert({
-name:name,
-price:price,
-stock:stock,
-image_url:imageUrl
-});
-
-if(error){
-
-msg.style.color="#e60000";
-msg.innerText="Ürün eklenemedi: "+error.message;
-return;
-
-}
-
-msg.style.color="#20a83a";
-msg.innerText="✅ Ürün başarıyla eklendi.";
-
-document.getElementById("productName").value="";
-document.getElementById("productPrice").value="";
-document.getElementById("productStock").value="";
-document.getElementById("productImage").value="";
-
-loadProducts();
-loadAdminProducts();
-
-}
-
-
-/* ADMIN ÜRÜNLERİ */
+/* ==================================================
+   ADMIN PRODUCTS
+================================================== */
 
 async function loadAdminProducts(){
 
-const {data,error} =
-await db
-.from("products")
-.select("*")
-.order("created_at",{ascending:false});
+    const {
+        data,
+        error
+    } =
+    await db
+        .from("products")
+        .select("*")
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        );
 
-if(error)return;
 
-const area =
-document.getElementById("adminProducts");
+    if(error){
 
-area.innerHTML="";
+        console.error(error);
 
-data.forEach(product=>{
+        return;
 
-area.innerHTML += `
+    }
 
-<div class="admin-product">
 
-${product.image_url
-? `<img src="${product.image_url}">`
-: ""}
+    const container =
+        document
+        .getElementById("adminProducts");
 
-<div>
 
-<strong>${product.name}</strong>
+    if(!data || data.length === 0){
 
-<div style="color:#aaa">
-${product.price} TL • Stok: ${product.stock}
-</div>
+        container.innerHTML =
+            "<p style='color:#777;'>Henüz ürün yok.</p>";
 
-</div>
+        return;
 
-<button class="delete"
-onclick="deleteProduct(${product.id},'${escapeQuotes(product.name)}')">
-Sil
-</button>
+    }
 
-</div>
 
-`;
+    container.innerHTML =
+        data.map(product => `
 
-});
+        <div class="admin-product">
+
+            ${
+                product.image_url
+                ?
+                `<img src="${product.image_url}">`
+                :
+                ""
+            }
+
+            <div class="admin-product-info">
+
+                <strong>
+                    ${escapeHTML(product.name)}
+                </strong>
+
+                <br>
+
+                <small>
+                    ${Number(product.price).toFixed(2)} TL
+                    · Stok: ${product.stock}
+                </small>
+
+            </div>
+
+            <button
+                class="delete-btn"
+                onclick="deleteProduct(${product.id})"
+            >
+                Sil
+            </button>
+
+        </div>
+
+    `).join("");
 
 }
 
 
-/* ÜRÜN SİL */
+/* ==================================================
+   DELETE PRODUCT
+================================================== */
 
-async function deleteProduct(id,name){
+async function deleteProduct(id){
 
-if(!confirm(name+" ürününü silmek istiyor musun?"))
-return;
+    if(!confirm("Bu ürünü silmek istediğine emin misin?")){
 
-const {error} =
-await db
-.from("products")
-.delete()
-.eq("id",id);
+        return;
 
-if(error){
+    }
 
-alert("Silinemedi: "+error.message);
-return;
+
+    const {
+        error
+    } =
+    await db
+        .from("products")
+        .delete()
+        .eq("id",id);
+
+
+    if(error){
+
+        alert(
+            "Ürün silinemedi: " +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    alert("Ürün silindi.");
+
+    await loadProducts();
+
+    await loadAdminProducts();
 
 }
+
+
+/* ==================================================
+   SECURITY
+================================================== */
+
+function escapeHTML(text){
+
+    return String(text)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* ==================================================
+   START
+================================================== */
 
 loadProducts();
-loadAdminProducts();
 
-}
-
-
-/* BAŞLANGIÇ */
-
-loadProducts();
+updateCart();
 
 </script>
 
